@@ -9,10 +9,14 @@
   "author": "",
   "license": "",
   "dependencies": {
+    "bluebird": "^3.5.0",
     "bookshelf": "^0.10.3",
     "knex": "^0.13.0",
     "koa": "^2.2.0",
+    "koa-busboy": "^1.1.1",
     "koa-router": "^7.2.0",
+    "koa-view": "^2.1.0",
+    "lodash": "^4.17.4",
     "pg": "^6.2.4"
   },
   "engines": {

@@ -1,4 +1,7 @@
 const router = require('koa-router')();
+const Busboy = require('busboy');
+const Promise = require('bluebird');
+const _ = require('lodash');
 
 var knex = require('knex')({
     client: 'pg',
@@ -25,25 +28,10 @@ router.get('/', list)
     .get('/videos/user/:id', getUserVideos);
 
 async function list(ctx) {
-    // var newVideo = new Videos();
-    // newVideo.set('author', 'Ja');
-    // newVideo.set('title', 'Simple title2');
-    // newVideo.set('description', 'Some example descriptionsgdrgrd');
-
-    // newVideo.save().then(function (u) {
-    //     console.log('Video saved', u.get('title'));
-    // });
-
     await Videos.forge().fetchAll()
         .then(function (videos) {
-            // videos.models.forEach(function (model) {
-            //     ctx.body += model.get('title');
-            // })
-            ctx.body = JSON.stringify(videos.toJSON());
-            console.log(videos.toJSON());
+            ctx.render('add', { videos: videos.toJSON() });
         });
-    //   await ctx.render('list', { posts: posts });
-    // ctx.body = 'Hello World from videos';
 }
 
 async function streamVideo(ctx) {
@@ -60,12 +48,32 @@ async function show(ctx) {
 }
 
 async function create(ctx) {
-    //   const post = ctx.request.body;
-    //   const id = posts.push(post) - 1;
-    //   post.created_at = new Date();
-    //   post.id = id;
-    //   ctx.redirect('/');
-    ctx.body = 'Hello World';
+    const busboy = new Busboy({
+        headers: ctx.headers
+    });
+    
+    const ALLOWED_FIELDS = ['title', 'description'];
+    var newVideo = new Videos();
+    newVideo.set('author', 'Ja');
+
+    busboy.on('field', (fieldname, value) => {
+        if (_.includes(ALLOWED_FIELDS, fieldname)) {
+            newVideo.set(fieldname, value);
+        }        
+    });
+
+    const busboyPromise = new Promise(resolve => {
+        busboy.on('finish', resolve);
+    });
+
+    ctx.req.pipe(busboy);
+
+    await busboyPromise;
+
+    await newVideo.save()
+        .then(function (u) {
+            ctx.body = 'Video saved!' + u.get('title');
+        });
 }
 
 async function createComment(ctx) {
