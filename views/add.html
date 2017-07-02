@@ -1,16 +1,15 @@
 <h1>Add video</h1>
-  <p>Upload new video</p>
-  <form action="/videos" method="post">
-    <p><input type="author" placeholder="Name" name="name"></p>
+<p>Upload new video</p>
+<form action="/videos" method="post">
     <p><input type="title" placeholder="Title" name="title"></p>
     <p><input type="description" placeholder="Description" name="description"></p>
     <p><input type="submit" value="Create"></p>
-  </form>
+</form>
 
 <div>
-{% for video in videos %}
-  <div>{{video.title}}</div>
-  <div>{{video.description}}</div>
-  <div>{{video.author}}</div>
-{% endfor %}
+    {% for video in videos %}
+    <div>{{video.title}}</div>
+    <div>{{video.description}}</div>
+    <div>{{video.author}}</div>
+    {% endfor %}
 </div>
