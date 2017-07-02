@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node --harmony index.js",
-    "build": "webpack --colors"
+    "build": "webpack --colors --display-error-details && npm run start"
   },
   "author": "",
   "license": "",
@@ -22,9 +22,11 @@
     "koa-router": "^7.2.0",
     "koa-view": "^2.1.0",
     "lodash": "^4.17.4",
+    "material-ui": "^0.18.5",
     "pg": "^6.2.4",
     "react": "^15.6.1",
-    "react-dom": "^15.6.1"
+    "react-dom": "^15.6.1",
+    "react-tap-event-plugin": "^2.0.1"
   },
   "engines": {
     "node": ">= 7.6"
@@ -32,6 +34,7 @@
   "devDependencies": {
     "koa-send": "^4.1.0",
     "koa-static": "^3.0.0",
+    "npm-run-all": "^4.0.2",
     "path": "^0.12.7",
     "webpack": "^3.0.0"
   }
